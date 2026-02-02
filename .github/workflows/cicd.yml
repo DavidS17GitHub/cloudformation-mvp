@@ -29,7 +29,7 @@ jobs:
       - name: Validate CloudFormation template
         run: |
           aws cloudformation validate-template \
-            --template-body file://template.yaml
+            --template-body file://${{ github.workspace }}/myStack.yaml
 
       - name: Create Change Set for Review
         id: create-changeset
