@@ -37,7 +37,7 @@ jobs:
         with:
           mode: 'create-only'
           name: MyStack
-          template: myStack.yaml
+          template: ${{ github.workspace }}/myStack.yaml
 
       # Review the outputs
       - name: Display Change Set Information
