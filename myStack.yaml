@@ -13,10 +13,10 @@ Parameters:
 
   EnableVersioning:
     Type: String
-    Default: 'true'
+    Default: 'Enabled'
     AllowedValues:
-      - 'true'
-      - 'false'
+      - 'Enabled'
+      - 'Suspended'
     Description: Enable versioning on the S3 bucket
 
   BucketPrefix:
