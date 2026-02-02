@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template to deploy a simple S3 bucket'
+
+Parameters:
+  BucketEnvironment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name for the S3 bucket
+
+  EnableVersioning:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Enable versioning on the S3 bucket
+
+  BucketPrefix:
+    Type: String
+    Default: my-bucket-github-515
+    Description: Prefix for the bucket name
+    MinLength: 1
+    MaxLength: 20
+
+Resources:
+  MyS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${BucketPrefix}-${BucketEnvironment}'
+      VersioningConfiguration:
+        Status: !Ref EnableVersioning
+
+Outputs:
+  BucketName:
+    Description: Name of the S3 bucket
+    Value: !Ref MyS3Bucket
+  BucketArn:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt MyS3Bucket.Arn

@@ -1,0 +1,55 @@
+name: Deploy CloudFormation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Validate CloudFormation template
+        run: |
+          aws cloudformation validate-template \
+            --template-body file://template.yaml
+
+      - name: Create Change Set for Review
+        id: create-changeset
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          mode: 'create-only'
+          name: MyStack
+          template: myStack.yaml
+
+      # Review the outputs
+      - name: Display Change Set Information
+        run: |
+          echo "Change Set ID: ${{ steps.create-changeset.outputs.change-set-id }}"
+          echo "Has Changes: ${{ steps.create-changeset.outputs.has-changes }}"
+          echo "Changes Count: ${{ steps.create-changeset.outputs.changes-count }}"
+          echo "Changes Summary: ${{ steps.create-changeset.outputs.changes-summary }}"
+      
+      - name: Execute Change Set
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          mode: 'execute-only'
+          name: MyStack
+          execute-change-set-id: ${{ steps.create-changeset.outputs.change-set-id }}
