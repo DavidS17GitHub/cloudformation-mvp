@@ -21,7 +21,7 @@ Parameters:
 
   BucketPrefix:
     Type: String
-    Default: my-bucket-github-516
+    Default: my-bucket-github-517
     Description: Prefix for the bucket name
     MinLength: 1
     MaxLength: 20

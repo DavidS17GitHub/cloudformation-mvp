@@ -40,6 +40,9 @@ jobs:
           mode: 'create-only'
           name: MyStack
           template: ${{ github.workspace }}/myStack.yaml
+          tags: |
+            Environment=Development
+            DeployedBy=GitHubActions
 
       # Review the outputs
       - name: Display Change Set Information
@@ -55,3 +58,6 @@ jobs:
           mode: 'execute-only'
           name: MyStack
           execute-change-set-id: ${{ steps.create-changeset.outputs.change-set-id }}
+          tags: |
+            Environment=Development
+            DeployedBy=GitHubActions
