@@ -33,7 +33,7 @@ jobs:
 
       - name: Create Change Set for Review
         id: create-changeset
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        uses: aws-actions/aws-cloudformation-github-deploy@v2.0.0
         with:
           mode: 'create-only'
           name: MyStack
@@ -48,7 +48,7 @@ jobs:
           echo "Changes Summary: ${{ steps.create-changeset.outputs.changes-summary }}"
       
       - name: Execute Change Set
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        uses: aws-actions/aws-cloudformation-github-deploy@v2.0.0
         with:
           mode: 'execute-only'
           name: MyStack
