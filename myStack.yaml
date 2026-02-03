@@ -13,7 +13,7 @@ Parameters:
 
   EnableVersioning:
     Type: String
-    Default: 'Enabled'
+    Default: 'Suspended'
     AllowedValues:
       - 'Enabled'
       - 'Suspended'
